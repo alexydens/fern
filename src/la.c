@@ -1,6 +1,5 @@
 /* Implements la.h */
 #include <la.h>
-#include <wchar.h>
 
 /* Create a 2d identity matrix */
 void m2_identity(mat2_t *res) {
@@ -163,10 +162,54 @@ void m4_rotation(mat4_t *res, vec3_t angles) {
   m4_mul(res, *res, m);
 }
 
-/* Create a 4d perspective matrix */
-void m4_perspective(mat4_t *res, f32 fov, f32 aspect, f32 near, f32 far);
+/* Create a 4d perspective matrix (returns false on failure) */
+bool m4_perspective(mat4_t *res, f32 fov, f32 aspect, f32 near, f32 far) {
+  f32 s = sin(fov / 2.0f);
+  f32 delta_z = far - near;
+  if (delta_z == 0.0f || s == 0.0f || aspect == 0.0f)
+    return false;
+  f32 cot = cos(fov / 2.0f) / s;
+  m4_identity(res);
+  res->m[0] = cot / aspect;
+  res->m[5] = cot;
+  res->m[10] = (far + near) / delta_z;
+  res->m[11] = -1.0f;
+  res->m[14] = (2.0f * far * near) / delta_z;
+  res->m[15] = 0.0f;
+  return true;
+}
 /* Create a 4d look at matrix */
-void m4_look_at(mat4_t *res, vec3_t eye, vec3_t center, vec3_t up);
+void m4_look_at(mat4_t *res, vec3_t eye, vec3_t center, vec3_t up) {
+  vec3_t f, s, u;
+
+  f = V3_SUB(center, eye);
+  f = V3_NORMALIZE(f);
+
+  s = V3_CROSS(f, up);
+  s = V3_NORMALIZE(s);
+
+  u = V3_CROSS(s, f);
+
+  res->m[0] = s.x;
+  res->m[1] = u.x;
+  res->m[2] = -f.x;
+  res->m[3] = 0.0f;
+
+  res->m[4] = s.y;
+  res->m[5] = u.y;
+  res->m[6] = -f.y;
+  res->m[7] = 0.0f;
+
+  res->m[8] = s.z;
+  res->m[9] = u.z;
+  res->m[10] = -f.z;
+  res->m[11] = 0.0f;
+
+  res->m[12] = -V3_DOT(s, eye);
+  res->m[13] = -V3_DOT(u, eye);
+  res->m[14] = V3_DOT(f, eye);
+  res->m[15] = 1.0f;
+}
 
 /* Get the determinant of a 2d matrix or 0 */
 f32 m2_determinant(mat2_t m) {

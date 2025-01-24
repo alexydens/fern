@@ -157,8 +157,8 @@ extern void m4_rotation_z(mat4_t *res, f32 angle);
 /* Create a 4d rotation matrix using euler angles (3d, but in 3d matrix) */
 extern void m4_rotation(mat4_t *res, vec3_t angles);
 
-/* Create a 4d perspective matrix */
-extern void m4_perspective(mat4_t *res, f32 fov, f32 aspect, f32 near, f32 far);
+/* Create a 4d perspective matrix (returns false on failure) */
+extern bool m4_perspective(mat4_t *res, f32 fov, f32 aspect, f32 near, f32 far);
 /* Create a 4d look at matrix */
 extern void m4_look_at(mat4_t *res, vec3_t eye, vec3_t center, vec3_t up);
 
