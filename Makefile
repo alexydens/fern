@@ -3,7 +3,7 @@ SRC_DIR=src
 INC_DIR=include
 OBJ_DIR=obj
 BIN_DIR=bin
-LOG_DIR=log
+LOG_DIR=data/log
 
 CFLAGS = -Wall -Wextra -Wpedantic -Werror -std=c11 -I$(INC_DIR)
 CFLAGS += -Wno-unused
@@ -33,8 +33,5 @@ clean:
 	rm -rf $(BIN_DIR)
 	rm -rf $(LOG_DIR)
 
-test: build
+test: build | $(LOG_DIR)
 	./$(BIN_DIR)/$(PROJECT_NAME)
-
-test-neat: build | $(LOG_DIR)
-	./$(BIN_DIR)/$(PROJECT_NAME) 2> $(LOG_DIR)/stderr.log
