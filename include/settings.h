@@ -15,17 +15,24 @@
 
 /* Settings */
 typedef struct {
-  /* Misc */
-  const char *misc_root_path;
-  /* Logging */
-  enum {
-    LOG_TARGET_FILE,
-    LOG_TARGET_STDOUT,
-    LOG_TARGET_STDERR,
-    LOG_TARGET_NONE
-  } logging_target;
-  bool logging_colors;
+  struct {
+    const char *root_path;
+  } misc;
+  struct {
+    enum {
+      LOG_TARGET_FILE,
+      LOG_TARGET_STDOUT,
+      LOG_TARGET_STDERR,
+      LOG_TARGET_NONE
+    } target;
+    bool colors;
+  } logging;
 } settings_t;
 extern settings_t settings;
+
+/* Load settings from file */
+extern void settings_load(void);
+/* Save settings to file */
+extern void settings_save(void);
 
 #endif /* SETTINGS_H */

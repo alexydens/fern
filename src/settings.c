@@ -1,9 +1,15 @@
 /* Implements settings.h */
 #include <settings.h>
+#include <logging.h>
 
 /* Default settings */
 settings_t settings = {
-  .misc_root_path = DEFAULT_MISC_ROOT_PATH,
-  .logging_target = DEFAULT_LOGGING_TARGET,
-  .logging_colors = DEFAULT_LOGGING_COLORS
+  .misc.root_path = DEFAULT_MISC_ROOT_PATH,
+  .logging.target = DEFAULT_LOGGING_TARGET,
+  .logging.colors = DEFAULT_LOGGING_COLORS
 };
+
+/* Load settings from file */
+void settings_load(void);
+/* Save settings to file */
+void settings_save(void);

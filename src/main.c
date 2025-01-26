@@ -7,6 +7,8 @@
 int main(void) {
   log_init();
 
+  log_msg(LOG_LEVEL_INFO, "Testing...");
+
   log_quit();
   return 0;
 }

@@ -37,7 +37,7 @@ extern void __assert_stdlib_fail(const char *msg) {
 
 /* Initialize logging */
 void log_init(void) {
-  if (settings.logging_target == LOG_TARGET_FILE) {
+  if (settings.logging.target == LOG_TARGET_FILE) {
     time_t t;
     struct tm tm;
     char filename[32];
@@ -49,7 +49,7 @@ void log_init(void) {
     strftime(filename, sizeof(filename), "%m-%d-%y_%X.log", &tm);
     
     memset(path, 0, sizeof(path));
-    snprintf(path, sizeof(path), "%s/log/%s", settings.misc_root_path, filename);
+    snprintf(path, sizeof(path), "%s/log/%s", settings.misc.root_path, filename);
     if (log_file) fclose(log_file);
     log_file = fopen(path, "w");
     if (log_file) {
@@ -66,9 +66,9 @@ void log_quit(void) {
 void log_msg(log_level_t level, const char *msg, ...) {
   va_list args;
   va_start(args, msg);
-  switch (settings.logging_target) {
+  switch (settings.logging.target) {
     case LOG_TARGET_FILE:
-      if (settings.logging_colors)
+      if (settings.logging.colors)
         fprintf(log_file, "[%s]: ", log_levels_color[level]);
       else
         fprintf(log_file, "[%s]: ", log_levels[level]);
@@ -76,7 +76,7 @@ void log_msg(log_level_t level, const char *msg, ...) {
       fprintf(log_file, "\n");
       break;
     case LOG_TARGET_STDOUT:
-      if (settings.logging_colors)
+      if (settings.logging.colors)
         fprintf(stdout, "[%s]: ", log_levels_color[level]);
       else
         fprintf(stdout, "[%s]: ", log_levels[level]);
@@ -84,7 +84,7 @@ void log_msg(log_level_t level, const char *msg, ...) {
       fprintf(stdout, "\n");
       break;
     case LOG_TARGET_STDERR:
-      if (settings.logging_colors)
+      if (settings.logging.colors)
         fprintf(stderr, "[%s]: ", log_levels_color[level]);
       else
         fprintf(stderr, "[%s]: ", log_levels[level]);
