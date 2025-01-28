@@ -7,7 +7,6 @@
 
 /* Default settings */
 /* Misc */
-//#define DEFAULT_MISC_ROOT_PATH "$HOME/.fern"
 #define DEFAULT_MISC_ROOT_PATH "./data"
 /* Logging */
 #define DEFAULT_LOGGING_TARGET LOG_TARGET_STDOUT
