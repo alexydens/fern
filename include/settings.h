@@ -2,15 +2,17 @@
 #if !defined(SETTINGS_H)
 #define SETTINGS_H
 
-/* Include guard */
+/* Includes */
 #include <base.h>
 
 /* Default settings */
 /* Misc */
 #define DEFAULT_MISC_ROOT_PATH "./data"
 /* Logging */
-#define DEFAULT_LOGGING_TARGET LOG_TARGET_STDOUT
-#define DEFAULT_LOGGING_COLORS TRUE
+//#define DEFAULT_LOGGING_TARGET LOG_TARGET_STDOUT
+//#define DEFAULT_LOGGING_COLORS TRUE
+#define DEFAULT_LOGGING_TARGET LOG_TARGET_FILE
+#define DEFAULT_LOGGING_COLORS FALSE
 
 /* Settings */
 typedef struct {

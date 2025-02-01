@@ -8,6 +8,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <errno.h>
+#include <unistd.h>
 
 /* Consts */
 const char *log_levels[] = {
@@ -42,6 +43,7 @@ void log_init(void) {
     struct tm tm;
     char filename[32];
     char path[128];
+    int i = 0;
 
     t = time(NULL);
     tm = *localtime(&t);
@@ -50,6 +52,14 @@ void log_init(void) {
     
     memset(path, 0, sizeof(path));
     snprintf(path, sizeof(path), "%s/log/%s", settings.misc.root_path, filename);
+    while (access(path, F_OK) == 0) {
+      i++;
+      snprintf(
+          path, sizeof(path),
+          "%s/log/%s(%d).log",
+          settings.misc.root_path, filename, i
+      );
+    }
     if (log_file) fclose(log_file);
     log_file = fopen(path, "w");
     if (log_file) {
